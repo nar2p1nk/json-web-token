@@ -14,7 +14,7 @@ const jwtStrategy = passportJWT.Strategy;
 const users = [
   {
     id: 1,
-    name: 'jonathanmh',
+    name: 'jonat',
     password: '%2yx4'
   },
   {
@@ -30,9 +30,9 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 jwtOptions.secretOrKey = 'tasmine';
 
 const strategy = new jwtStrategy(jwtOptions,(payload,next)=>{
-    console.log('payload received',jwt_payload);
+    console.log('payload received',payload);
 
-    const user = users[_.findIndex(users,{id:jwt_payload.id})]
+    const user = users[_.findIndex(users,{id:payload.id})]
     if(user){next(null,user)}
     else{next(null,false)}
 });
@@ -62,10 +62,23 @@ app.post('/login',(req,res)=>{
 
 })
 
-
-
 app.get('/',(req,res)=>{
     res.json({message:"Express is down"})
+})
+
+app.get('/secret',passport.authenticate('jwt',{session:false}),(req,res)=>{
+  const name = req.body.name
+  res.json({
+    secret:'success! you can\'t see this without a jw token',
+    username:name
+  })
+})
+
+app.get('/secretDebug',(req,res,next)=>{
+  console.log(req.get('Authorization'));
+  next();
+},(req,res)=>{
+  res.json('debugging')
 })
 
 app.listen(port,()=>{

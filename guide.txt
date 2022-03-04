@@ -1,0 +1,2 @@
+https://jonathanmh.com/express-passport-json-web-token-jwt-authentication-beginners/
+https://jonathanmh.com/example-json-web-tokens-vanilla-javascript/

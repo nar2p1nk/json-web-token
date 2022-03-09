@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
@@ -9,20 +10,6 @@ const passportJWT = require('passport-jwt');
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const jwtStrategy = passportJWT.Strategy;
-
-
-const users = [
-  {
-    id: 1,
-    name: 'jonat',
-    password: '%2yx4'
-  },
-  {
-    id: 2,
-    name: 'test',
-    password: 'test'
-  }
-];
 
 
 const jwtOptions = {};

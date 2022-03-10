@@ -2,27 +2,12 @@ const express = require('express');
 const app = express();
 const _ = require('lodash');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 const port = 8000;
-
 const passport = require('passport');
-const passportJWT = require('passport-jwt');
+const strategy = require('./jwtAuth')
+const database = require('./database');
 
-const ExtractJwt = passportJWT.ExtractJwt;
-const jwtStrategy = passportJWT.Strategy;
-
-
-const jwtOptions = {};
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
-jwtOptions.secretOrKey = 'tasmine';
-
-const strategy = new jwtStrategy(jwtOptions,(payload,next)=>{
-    console.log('payload received',payload);
-
-    const user = users[_.findIndex(users,{id:payload.id})]
-    if(user){next(null,user)}
-    else{next(null,false)}
-});
+const users = database.db.prepare(`SELECT * FROM user`).get()
 
 app.use(passport.initialize());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -67,6 +52,8 @@ app.get('/secretDebug',(req,res,next)=>{
 },(req,res)=>{
   res.json('debugging')
 })
+
+database.db.close()
 
 app.listen(port,()=>{
     console.log(`server at localhost:${port}`)

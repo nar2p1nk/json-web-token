@@ -16,8 +16,6 @@ function createUser(username,password){
     create.run(username,password);
     console.log('user created')
 }
-
-module.exports = createUser
+module.exports = {createUser,db}
 
 // emilia Gallantpalad
-db.close()

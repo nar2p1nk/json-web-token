@@ -11,14 +11,11 @@ password TEXT NOT NULL
 
 
 function createUser(username,password){
-    console.log('before')
     const hashedPassword = bcrypt.hashSync(password, 10)
     db.prepare(`INSERT INTO user(username,password) VALUES(?,?)`).run(username,hashedPassword);
-    console.log('user created')
 }
 
 
-createUser('emilia2','Gallantpalad')
 
-//module.exports = {createUser,db}
+module.exports = {createUser,db}
 
